@@ -4,6 +4,10 @@ import Form from './Form';
 
 class App extends Component {
 
+  state = {
+    characters: []
+  };
+
   removeCharacter = index => {
     const { characters } = this.state
   
@@ -13,6 +17,10 @@ class App extends Component {
       }),
     })
   }
+
+  handleSubmit = character => {
+    this.setState({ characters: [...this.state.characters, character] })
+  };
 
   render() {
     const { characters } = this.state;
@@ -24,15 +32,6 @@ class App extends Component {
       </div>
     );
   }
-
-  handleSubmit = character => {
-    this.setState({ characters: [...this.state.characters, character] })
-  };
-
-  state = {
-    characters: []
-  };
-
   
 }
 

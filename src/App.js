@@ -10,7 +10,7 @@ class App extends Component {
   };
 
   removeCharacter = index => {
-    const { characters } = this.state
+    /*const { characters } = this.state
     const nameToDelete = characters[index].name
     axios.delete('http://localhost:5000/users?name=' + nameToDelete)
     .then(function (response){
@@ -27,7 +27,16 @@ class App extends Component {
       characters: characters.filter((character, i) => {
         return i !== index
       }),
-    })
+    })*/
+    this.makeDeleteCall(index).then( callResult => {
+      if (callResult === true) {
+        axios.get('http://localhost:5000/users')
+        .then(response => {
+          const characters = response.data.users_list;
+          this.setState({ characters });
+        })
+      }
+   });
     
   }
 
@@ -50,6 +59,21 @@ class App extends Component {
        console.log(response);
        return (response.status === 201);
        //return response.data
+     })
+     .catch(function (error) {
+       console.log(error);
+       return false;
+     });
+  }
+
+  makeDeleteCall(index){
+    const { characters } = this.state
+    const name_to_delete = characters[index].name
+
+    return axios.delete('http://localhost:5000/users?name=' + name_to_delete)
+     .then(function (response) {
+       console.log(response);
+       return (response.status === 201);
      })
      .catch(function (error) {
        console.log(error);
